@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0B1220;
+  --color-bg-raised: #101A2E;
+  --color-bg-raised-hover: #16213A;
+  --color-line: #233049;
+  --color-text: #E7ECF6;
+  --color-text-dim: #8C9AB5;
+  --color-text-body: #CBD4E6;
+  --color-amber: #F2A93B;
+  --color-amber-hover: #ffba55;
+  --color-teal: #3FD3C6;
+
+  --font-mono: 'Space Mono', monospace;
+  --font-sans: 'Manrope', sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: var(--color-amber);
+    color: var(--color-bg);
+  }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.12;
+  }
+
+  .cursor-blink {
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .cursor-blink {
+      animation: none;
+    }
+  }
+}
