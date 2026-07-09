@@ -60,6 +60,32 @@ VITE_FIREBASE_APP_ID=...
    Yehi email/password aap `/admin/login` pe use karoge. Koi public
    signup form nahi hai, isliye site secure rehti hai.
 
+## Step 5.5 — Cloudinary setup karo (image uploads ke liye — free, no card)
+
+Firebase Storage ke liye card chahiye, isliye images (Hero photo,
+Testimonial photos, Project screenshots) ke liye hum **Cloudinary** use
+kar rahe hain — bilkul free, koi card nahi maangta.
+
+1. https://cloudinary.com/users/register/free pe jao → free account banao
+2. Login karne ke baad **Dashboard** pe upar apka **"Cloud name"** dikhega
+   — usko copy karo
+3. Left sidebar → **Settings (gear icon) → Upload** tab pe jao
+4. **"Upload presets"** section me **"Add upload preset"** click karo
+5. **Signing Mode** ko **"Unsigned"** kar do (bahut zaroori — isse hi
+   browser se directly upload ho payega bina backend ke)
+6. Preset name kuch bhi rakho (ya default rehne do) → **Save**
+7. Us preset ka naam copy karo
+
+`.env` file me ye 2 lines add karo:
+
+```
+VITE_CLOUDINARY_CLOUD_NAME=your-cloud-name
+VITE_CLOUDINARY_UPLOAD_PRESET=your-preset-name
+```
+
+Vercel Environment Variables me bhi yehi 2 keys add karke redeploy karna
+mat bhoolna.
+
 ## Step 6 — Locally test karo
 
 ```bash
@@ -95,3 +121,24 @@ site edit karo.
   text dikhega, exactly jaisa aapne bola tha.
 - Sirf **ek** admin account rakhna recommended hai (jo aapne Step 5 me
   banaya). Chaho to Authentication → Users me se aur add kar sakte ho.
+- Har project card ab **clickable** hai — click karne pe ek detail page
+  khulta hai jaha full description aur **screenshots gallery** (max 8
+  images) dikhti hai. Admin panel → Projects → har project ke andar
+  "Full description" aur "Screenshots" fields se manage karo.
+- Project detail page pe **comments + star rating** section hai — koi
+  bhi visitor apna naam, rating (1-5 stars), aur comment daal sakta hai
+  (email/phone optional, sirf record ke liye — publicly kabhi nahi
+  dikhta). Naye comments turant live dikhte hain.
+- **Admin panel → Comments tab** se aap sabhi comments dekh sakte ho,
+  koi ajeeb/spam comment ho to **hide** (site se turant gayab ho jayega)
+  ya **permanently delete** kar sakte ho.
+- Testimonials me bhi ab **star rating** field hai — admin panel me
+  har testimonial ke saath 1-5 stars select kar sakte ho.
+
+### ⚠️ Zaroori — Firestore rules dobara update karo
+
+Comments feature ke liye Firestore rules me naya rule add hua hai. Agar
+aapne pehle wali rules already publish kar rakhi hain, to **dobara**
+Firebase Console → Firestore Database → Rules me jaake is repo ki
+naya `firestore.rules` file ka poora content paste karke **Publish**
+karna zaroori hai — warna comments submit/manage nahi ho payenge.

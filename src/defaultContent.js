@@ -113,6 +113,8 @@ export const defaultContent = {
           { label: 'GitHub', href: 'https://github.com/vishwjeet-45' },
         ],
         highlight: true,
+        longDescription: '',
+        screenshots: [],
       },
       {
         tag: '02 / Boilerplate',
@@ -122,6 +124,8 @@ export const defaultContent = {
         tech: 'Laravel · Sanctum · MySQL',
         links: [],
         highlight: false,
+        longDescription: '',
+        screenshots: [],
       },
       {
         tag: '03 / AI Integration',
@@ -131,6 +135,8 @@ export const defaultContent = {
         tech: 'Laravel · OpenAI · Livewire',
         links: [],
         highlight: false,
+        longDescription: '',
+        screenshots: [],
       },
       {
         tag: '04 / Multi-Tenant SaaS',
@@ -140,6 +146,8 @@ export const defaultContent = {
         tech: 'Laravel · Vue.js · MySQL · Multi-Tenancy',
         links: [{ label: 'View project', href: 'https://hms.startupwebsupport.com/login' }],
         highlight: false,
+        longDescription: '',
+        screenshots: [],
       },
       {
         tag: '05 / Recruitment',
@@ -149,6 +157,8 @@ export const defaultContent = {
         tech: 'Laravel · Livewire · AI · MySQL',
         links: [],
         highlight: false,
+        longDescription: '',
+        screenshots: [],
       },
       {
         tag: '06 / Food-Tech',
@@ -158,6 +168,8 @@ export const defaultContent = {
         tech: 'Laravel · Livewire · MySQL · REST API',
         links: [{ label: 'View project', href: 'https://mealboy.ipistisdemo.com' }],
         highlight: false,
+        longDescription: '',
+        screenshots: [],
       },
       {
         tag: '07 / Marketplace',
@@ -167,6 +179,8 @@ export const defaultContent = {
         tech: 'Laravel · React · MySQL · REST API',
         links: [{ label: 'View project', href: 'https://vedicvaani-front.vercel.app/' }],
         highlight: false,
+        longDescription: '',
+        screenshots: [],
       },
       {
         tag: '08 / Booking System',
@@ -176,6 +190,8 @@ export const defaultContent = {
         tech: 'Laravel · MySQL',
         links: [{ label: 'View project', href: 'https://booking.smartcctvguard.com/login' }],
         highlight: false,
+        longDescription: '',
+        screenshots: [],
       },
     ],
   },
@@ -184,6 +200,7 @@ export const defaultContent = {
     heading: 'Testimonials',
     items: [],
   },
+  // Note: each testimonial item shape: { name, role, quote, imageUrl, rating (1-5) }
 
   certifications: {
     heading: 'Certifications & Learning',

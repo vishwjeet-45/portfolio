@@ -1,10 +1,31 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Public site content: anyone can read, only a signed-in admin can write.
+    // Site content: public read, admin-only write.
     match /site/content {
       allow read: if true;
       allow write: if request.auth != null;
+    }
+
+    // Project comments: anyone can submit a comment — it's visible
+    // immediately (approved: true by default). Only the signed-in admin
+    // can hide (set approved: false) or delete a comment later.
+    match /comments/{commentId} {
+      allow read: if resource.data.approved == true || request.auth != null;
+
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() > 0
+                    && request.resource.data.name.size() < 100
+                    && request.resource.data.comment is string
+                    && request.resource.data.comment.size() > 0
+                    && request.resource.data.comment.size() < 1000
+                    && request.resource.data.rating is int
+                    && request.resource.data.rating >= 1
+                    && request.resource.data.rating <= 5
+                    && request.resource.data.projectIndex is int
+                    && request.resource.data.approved == true;
+
+      allow update, delete: if request.auth != null;
     }
   }
 }

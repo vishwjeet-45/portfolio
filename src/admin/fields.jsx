@@ -13,10 +13,11 @@ export function TextField({ label, value, onChange, placeholder }) {
   );
 }
 
-export function TextAreaField({ label, value, onChange, rows = 4 }) {
+export function TextAreaField({ label, value, onChange, rows = 4, helpText }) {
   return (
     <div className="mb-4">
       <label className="block text-xs text-text-dim mb-1 font-mono">{label}</label>
+      {helpText && <p className="text-[11px] text-text-dim mb-1.5">{helpText}</p>}
       <textarea
         value={value ?? ''}
         rows={rows}

@@ -15,11 +15,12 @@ export default function TestimonialsEditor({ value, onChange }) {
         onChange={set('items')}
         itemLabel="Testimonial"
         folder="testimonials"
-        emptyItem={{ name: '', role: '', quote: '', imageUrl: '' }}
+        emptyItem={{ name: '', role: '', quote: '', imageUrl: '', rating: 5 }}
         fields={[
           { key: 'imageUrl', label: 'Photo (optional)', type: 'image', helpText: 'Chhod doge to sirf text dikhega.' },
           { key: 'name', label: 'Person name', type: 'text' },
           { key: 'role', label: 'Role / company', type: 'text' },
+          { key: 'rating', label: 'Rating', type: 'rating' },
           { key: 'quote', label: 'Testimonial text', type: 'textarea' },
         ]}
       />

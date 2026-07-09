@@ -1,10 +1,12 @@
 import { Plus, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
 import { TextField, TextAreaField, CheckboxField, StringListField, PairListField } from './fields';
 import ImageUpload from './ImageUpload';
+import ImageListUpload from './ImageListUpload';
+import { StarPicker } from '../components/StarRatingWidgets';
 
 /**
  * fields: [{ key, label, type }]
- * type: 'text' | 'textarea' | 'checkbox' | 'stringlist' | 'image' | 'linklist'
+ * type: 'text' | 'textarea' | 'checkbox' | 'stringlist' | 'image' | 'imagelist' | 'linklist' | 'rating'
  */
 export default function RepeaterEditor({ items = [], onChange, fields, emptyItem, itemLabel = 'Item', folder }) {
   function update(idx, key, val) {
@@ -48,7 +50,9 @@ export default function RepeaterEditor({ items = [], onChange, fields, emptyItem
           {fields.map((f) => {
             const val = item[f.key];
             if (f.type === 'textarea') {
-              return <TextAreaField key={f.key} label={f.label} value={val} onChange={(v) => update(idx, f.key, v)} />;
+              return (
+                <TextAreaField key={f.key} label={f.label} value={val} onChange={(v) => update(idx, f.key, v)} helpText={f.helpText} />
+              );
             }
             if (f.type === 'checkbox') {
               return <CheckboxField key={f.key} label={f.label} checked={val} onChange={(v) => update(idx, f.key, v)} />;
@@ -70,6 +74,14 @@ export default function RepeaterEditor({ items = [], onChange, fields, emptyItem
                 />
               );
             }
+            if (f.type === 'rating') {
+              return (
+                <div key={f.key} className="mb-4">
+                  <label className="block text-xs text-text-dim mb-1 font-mono">{f.label}</label>
+                  <StarPicker value={val || 0} onChange={(v) => update(idx, f.key, v)} size={20} />
+                </div>
+              );
+            }
             if (f.type === 'image') {
               return (
                 <ImageUpload
@@ -77,8 +89,19 @@ export default function RepeaterEditor({ items = [], onChange, fields, emptyItem
                   label={f.label}
                   value={val}
                   onChange={(v) => update(idx, f.key, v)}
-                  folder={folder || 'uploads'}
                   helpText={f.helpText}
+                />
+              );
+            }
+            if (f.type === 'imagelist') {
+              return (
+                <ImageListUpload
+                  key={f.key}
+                  label={f.label}
+                  value={val || []}
+                  onChange={(v) => update(idx, f.key, v)}
+                  helpText={f.helpText}
+                  max={f.max || 8}
                 />
               );
             }

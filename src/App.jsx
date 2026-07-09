@@ -9,6 +9,7 @@ import Testimonials from './components/Testimonials';
 import Certifications from './components/Certifications';
 import Education from './components/Education';
 import Footer from './components/Footer';
+import ProjectDetail from './components/ProjectDetail';
 import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import ProtectedRoute from './admin/ProtectedRoute';
@@ -35,6 +36,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Portfolio />} />
+      <Route path="/projects/:index" element={<ProjectDetail />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route
         path="/admin/*"

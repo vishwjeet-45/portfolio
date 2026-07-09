@@ -17,6 +17,7 @@ import TestimonialsEditor from './sections/TestimonialsEditor';
 import CertificationsEditor from './sections/CertificationsEditor';
 import EducationEditor from './sections/EducationEditor';
 import FooterEditor from './sections/FooterEditor';
+import CommentsAdmin from './sections/CommentsAdmin';
 
 const TABS = [
   { key: 'header', label: 'Header', Editor: HeaderEditor },
@@ -29,6 +30,7 @@ const TABS = [
   { key: 'certifications', label: 'Certifications', Editor: CertificationsEditor },
   { key: 'education', label: 'Education', Editor: EducationEditor },
   { key: 'footer', label: 'Footer', Editor: FooterEditor },
+  { key: 'comments', label: 'Comments', Editor: CommentsAdmin },
 ];
 
 export default function AdminDashboard() {

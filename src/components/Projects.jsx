@@ -1,9 +1,11 @@
 import useReveal from '../hooks/useReveal';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, ArrowUpRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useContent } from '../context/ContentContext';
 
 export default function Projects() {
   const ref = useReveal();
+  const navigate = useNavigate();
   const { content } = useContent();
   const { heading, items } = content.projects;
 
@@ -16,14 +18,21 @@ export default function Projects() {
         </div>
 
         <div ref={ref} className="grid gap-5.5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(310px,1fr))' }}>
-          {items.map((p) => (
+          {items.map((p, i) => (
             <div
               key={p.name}
-              className={`reveal bg-bg-raised border rounded-xl p-6 flex flex-col gap-3 hover:-translate-y-1 transition-all ${
+              role="button"
+              tabIndex={0}
+              onClick={() => navigate(`/projects/${i}`)}
+              onKeyDown={(e) => (e.key === 'Enter' ? navigate(`/projects/${i}`) : null)}
+              className={`reveal group cursor-pointer bg-bg-raised border rounded-xl p-6 flex flex-col gap-3 hover:-translate-y-1 transition-all ${
                 p.highlight ? 'border-teal/60 hover:border-teal' : 'border-line hover:border-amber'
               }`}
             >
-              <div className="font-mono text-text-dim text-xs">{p.tag}</div>
+              <div className="flex items-center justify-between">
+                <div className="font-mono text-text-dim text-xs">{p.tag}</div>
+                <ArrowUpRight size={16} className="text-text-dim group-hover:text-amber transition-colors" />
+              </div>
               <div className="text-lg font-bold">{p.name}</div>
               <div className="text-text-dim text-sm grow">{p.desc}</div>
               <div className="flex flex-wrap gap-1.5">
@@ -41,6 +50,7 @@ export default function Projects() {
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
                       className="inline-flex items-center gap-1.5 font-mono text-[12.5px] text-amber hover:underline"
                     >
                       <ExternalLink size={13} /> {label}

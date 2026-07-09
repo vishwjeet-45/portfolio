@@ -1,6 +1,7 @@
 import useReveal from '../hooks/useReveal';
 import { Quote, User } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+import { StarRating } from './StarRatingWidgets';
 
 export default function Testimonials() {
   const ref = useReveal();
@@ -23,6 +24,7 @@ export default function Testimonials() {
               className="reveal bg-bg-raised border border-line rounded-[10px] p-6 flex flex-col gap-4 hover:border-teal transition-colors"
             >
               <Quote size={20} className="text-amber shrink-0" />
+              {t.rating > 0 && <StarRating rating={t.rating} size={14} />}
               <p className="text-text-body text-[14.5px] grow">{t.quote}</p>
               <div className="flex items-center gap-3 pt-3 border-t border-line">
                 {t.imageUrl ? (

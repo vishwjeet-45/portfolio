@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase';
+import { uploadToCloudinary } from '../cloudinary';
 
-export default function ImageUpload({ label, value, onChange, folder = 'uploads', helpText }) {
+export default function ImageUpload({ label, value, onChange, helpText }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
 
@@ -12,13 +11,10 @@ export default function ImageUpload({ label, value, onChange, folder = 'uploads'
     setError('');
     setUploading(true);
     try {
-      const path = `${folder}/${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-      const r = storageRef(storage, path);
-      await uploadBytes(r, file);
-      const url = await getDownloadURL(r);
+      const url = await uploadToCloudinary(file);
       onChange(url);
     } catch (err) {
-      setError('Upload failed — Firebase Storage set up hai ya nahi check karo.');
+      setError(err.message || 'Upload failed.');
     } finally {
       setUploading(false);
       e.target.value = '';
