@@ -1,10 +1,8 @@
-import useReveal from '../hooks/useReveal';
 import { Quote, User } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import { StarRating } from './StarRatingWidgets';
 
 export default function Testimonials() {
-  const ref = useReveal();
   const { content } = useContent();
   const { heading, items } = content.testimonials || { heading: 'Testimonials', items: [] };
 
@@ -17,11 +15,11 @@ export default function Testimonials() {
           <span className="font-mono text-amber text-sm">★</span>
           <span className="text-[clamp(24px,3vw,32px)] font-extrabold tracking-tight">{heading}</span>
         </div>
-        <div ref={ref} className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))' }}>
+        <div className="grid gap-5" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))' }}>
           {items.map((t, i) => (
             <div
               key={i}
-              className="reveal bg-bg-raised border border-line rounded-[10px] p-6 flex flex-col gap-4 hover:border-teal transition-colors"
+              className="bg-bg-raised border border-line rounded-[10px] p-6 flex flex-col gap-4 hover:border-teal transition-colors"
             >
               <Quote size={20} className="text-amber shrink-0" />
               {t.rating > 0 && <StarRating rating={t.rating} size={14} />}
