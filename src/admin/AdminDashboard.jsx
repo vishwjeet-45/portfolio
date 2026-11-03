@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { getDoc, setDoc } from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { LayoutGrid, LogOut, Save, ExternalLink, Check, AlertTriangle } from 'lucide-react';
+import { LayoutGrid, LogOut, Save, ExternalLink, Check, AlertTriangle, FileText } from 'lucide-react';
 import { auth } from '../firebase';
 import { contentDocRef } from '../context/ContentContext';
 import { defaultContent } from '../defaultContent';
+import { applyResumeContent } from './syncDefaults';
 
 import HeaderEditor from './sections/HeaderEditor';
 import HeroEditor from './sections/HeroEditor';
@@ -55,6 +56,16 @@ export default function AdminDashboard() {
     } catch (err) {
       setStatus({ state: 'error', message: 'Save fail hua — Firestore rules/connection check karo.' });
     }
+  }
+
+  function handleApplyResume() {
+    const ok = window.confirm(
+      'Summary, Skills, Experience, Hero text, Footer subtext aur Projects ka text latest resume content se replace ho jayega. ' +
+        'Photos, screenshots, links, testimonials safe rahenge. Continue?'
+    );
+    if (!ok) return;
+    setDraft((d) => applyResumeContent(d));
+    setStatus({ state: 'saved', message: "Resume content load ho gaya — review karke 'Save changes' dabao." });
   }
 
   async function handleLogout() {
@@ -119,6 +130,12 @@ export default function AdminDashboard() {
                 <AlertTriangle size={14} /> {status.message}
               </span>
             )}
+            <button
+              onClick={handleApplyResume}
+              className="inline-flex items-center gap-1.5 border border-line hover:border-teal text-text font-mono text-xs px-4 py-2 rounded-lg transition-colors"
+            >
+              <FileText size={14} /> Apply latest resume content
+            </button>
             <button
               onClick={handleSave}
               disabled={status.state === 'saving'}

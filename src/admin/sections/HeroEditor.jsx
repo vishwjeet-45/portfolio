@@ -1,5 +1,6 @@
 import { TextField, PairListField } from '../fields';
 import ImageUpload from '../ImageUpload';
+import FileUpload from '../FileUpload';
 
 export default function HeroEditor({ value, onChange }) {
   const set = (key) => (v) => onChange({ ...value, [key]: v });
@@ -20,7 +21,14 @@ export default function HeroEditor({ value, onChange }) {
         helpText="Agar upload nahi karoge to sirf text dikhega, jaisa abhi hai."
       />
 
-      <TextField label="Resume URL (download link)" value={value.resumeUrl} onChange={set('resumeUrl')} />
+      <FileUpload
+        label="Resume (PDF upload)"
+        value={value.resumeUrl}
+        onChange={set('resumeUrl')}
+        accept=".pdf"
+        helpText="Nayi PDF upload karo — 'Download Resume' button isi file ko dega. Upload ke baad 'Save changes' dabana mat bhoolna."
+      />
+      <TextField label="Resume URL (ya manually link paste karo)" value={value.resumeUrl} onChange={set('resumeUrl')} />
       <TextField label="GitHub URL" value={value.githubUrl} onChange={set('githubUrl')} />
       <TextField label="Phone" value={value.phone} onChange={set('phone')} />
       <TextField label="Email" value={value.email} onChange={set('email')} />

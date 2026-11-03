@@ -142,3 +142,25 @@ aapne pehle wali rules already publish kar rakhi hain, to **dobara**
 Firebase Console → Firestore Database → Rules me jaake is repo ki
 naya `firestore.rules` file ka poora content paste karke **Publish**
 karna zaroori hai — warna comments submit/manage nahi ho payenge.
+
+### Resume upload
+
+- **Admin panel → Hero → "Resume (PDF upload)"** se nayi resume PDF upload
+  karo, phir **Save changes** dabao. "Download Resume" button turant nayi
+  file dega.
+- PDF Cloudinary pe "raw" file ke roop me upload hoti hai. Agar download
+  link 401/blocked aaye to Cloudinary Console → **Settings → Security** me
+  **"Allow delivery of PDF and ZIP files"** ON kar do.
+
+### Project detail page — extra content
+
+- Har project me ab ye fields hain: **My role, Key features, My
+  contribution, Challenges & solutions, Outcome** — sab detail page pe
+  alag sections me dikhte hain (khaali fields hide rehte hain).
+- **Resume se content update:** naya resume aane par `src/defaultContent.js`
+  update hota hai. Live site Firestore se chalti hai, isliye admin panel me
+  upar **"Apply latest resume content"** button dabao, review karo, phir
+  **Save changes**. Ye Summary, Skills, Experience, Hero text, Footer subtext
+  aur Projects ka text replace karta hai — photos, screenshots, links,
+  testimonials aur projects ka order safe rehta hai (deleted projects wapas
+  nahi aate).

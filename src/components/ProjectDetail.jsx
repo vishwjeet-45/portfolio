@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, ImageOff } from 'lucide-react';
+import { ArrowLeft, ExternalLink, ImageOff, Check } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import CommentSection from './CommentSection';
 
@@ -10,6 +10,13 @@ export default function ProjectDetail() {
   const items = content.projects.items || [];
   const project = items[Number(index)];
   const [activeImg, setActiveImg] = useState(0);
+
+  // The router keeps the previous scroll position, so without this the page
+  // opens scrolled down at the comments section. Always start at the top.
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    setActiveImg(0);
+  }, [index]);
 
   if (!project) {
     return (
@@ -23,6 +30,11 @@ export default function ProjectDetail() {
   }
 
   const screenshots = project.screenshots || [];
+  const listSections = [
+    { title: 'Key features', items: project.highlights },
+    { title: 'My contribution', items: project.responsibilities },
+    { title: 'Challenges & solutions', items: project.challenges },
+  ].filter((s) => s.items && s.items.length > 0);
 
   return (
     <div className="relative z-10 min-h-screen">
@@ -77,13 +89,54 @@ export default function ProjectDetail() {
           </div>
         )}
 
-        <p className="max-w-[760px] text-[16px] text-text-body leading-relaxed mb-8 whitespace-pre-wrap">
+        {project.role && (
+          <div className="font-mono text-[13px] text-text-dim mb-4">
+            Role: <span className="text-amber">{project.role}</span>
+          </div>
+        )}
+
+        <h2 className="font-mono text-amber text-sm mb-2">// overview</h2>
+        <p className="max-w-[760px] text-[16px] text-text-body leading-relaxed mb-9 whitespace-pre-wrap">
           {project.longDescription || project.desc}
         </p>
 
-        <div className="flex flex-wrap items-center gap-6 mb-8">
-          {project.tech && <span className="font-mono text-[12.5px] text-text-dim">{project.tech}</span>}
-        </div>
+        {listSections.length > 0 && (
+          <div className="grid gap-5 mb-9" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px,1fr))' }}>
+            {listSections.map(({ title, items: list }) => (
+              <div key={title} className="bg-bg-raised border border-line rounded-xl p-6">
+                <h3 className="text-base font-bold mb-3">{title}</h3>
+                <ul className="flex flex-col gap-2.5">
+                  {list.filter(Boolean).map((item) => (
+                    <li key={item} className="flex gap-2.5 text-sm text-text-body leading-relaxed">
+                      <Check size={15} className="text-teal shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {project.outcome && (
+          <div className="max-w-[760px] border-l-2 border-teal pl-5 mb-9">
+            <h3 className="font-mono text-teal text-sm mb-1.5">Outcome</h3>
+            <p className="text-[15px] text-text-body leading-relaxed whitespace-pre-wrap">{project.outcome}</p>
+          </div>
+        )}
+
+        {project.tech && (
+          <div className="mb-8">
+            <h3 className="font-mono text-amber text-sm mb-2">// tech stack</h3>
+            <div className="flex flex-wrap gap-1.5">
+              {project.tech.split('·').map((t) => t.trim()).filter(Boolean).map((t) => (
+                <span key={t} className="font-mono text-[12px] text-text border border-line bg-bg-raised px-2.5 py-1 rounded-md">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         {project.links && project.links.length > 0 && (
           <div className="flex flex-wrap gap-4">

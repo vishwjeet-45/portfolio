@@ -92,6 +92,8 @@ export default function Hero() {
           <a
             href={hero.resumeUrl}
             download="Vishwjeet_Kumar_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-amber hover:bg-amber-hover text-bg font-mono font-bold text-[13.5px] px-6 py-3 rounded-lg transition-colors"
           >
             <Download size={16} strokeWidth={2.5} />

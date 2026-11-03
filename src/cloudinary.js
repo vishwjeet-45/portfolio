@@ -1,7 +1,8 @@
-// Uploads an image to Cloudinary using an unsigned upload preset.
+// Uploads a file to Cloudinary using an unsigned upload preset.
 // This is a free alternative to Firebase Storage that doesn't require
 // a billing card. See ADMIN_SETUP.md for how to set up the free account.
-export async function uploadToCloudinary(file) {
+// resourceType: 'image' for photos/screenshots, 'raw' for documents (resume PDF).
+export async function uploadToCloudinary(file, resourceType = 'image') {
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
@@ -13,7 +14,7 @@ export async function uploadToCloudinary(file) {
   formData.append('file', file);
   formData.append('upload_preset', uploadPreset);
 
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
     method: 'POST',
     body: formData,
   });
