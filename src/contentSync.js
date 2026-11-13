@@ -1,4 +1,4 @@
-import { defaultContent } from '../defaultContent';
+import { defaultContent } from './defaultContent';
 
 // Projects that were renamed in defaultContent — old saved name → new name.
 const RENAMED_PROJECTS = {
@@ -13,16 +13,19 @@ const RENAMED_PROJECTS = {
 // re-added.
 function syncProjects(items) {
   const defaults = defaultContent.projects.items;
-  return items.map((item) => {
+  return items.map((item, i) => {
     const name = RENAMED_PROJECTS[item.name] || item.name;
     const def = defaults.find((d) => d.name === name);
-    if (!def) return item;
-    return {
-      ...item,
-      ...def,
-      screenshots: item.screenshots?.length ? item.screenshots : def.screenshots,
-      links: item.links?.length ? item.links : def.links,
-    };
+    const synced = def
+      ? {
+          ...item,
+          ...def,
+          screenshots: item.screenshots?.length ? item.screenshots : def.screenshots,
+          links: item.links?.length ? item.links : def.links,
+        }
+      : item;
+    // Tag numbers ("01 / Open Source") follow the saved order, not the defaults.
+    return { ...synced, tag: (synced.tag || '').replace(/^\d+/, String(i + 1).padStart(2, '0')) };
   });
 }
 
@@ -33,6 +36,7 @@ export function applyResumeContent(draft) {
   const { photoUrl, resumeUrl } = draft.hero;
   return {
     ...draft,
+    contentVersion: defaultContent.contentVersion,
     hero: { ...draft.hero, ...defaultContent.hero, photoUrl, resumeUrl },
     summary: defaultContent.summary,
     skills: defaultContent.skills,
@@ -40,4 +44,12 @@ export function applyResumeContent(draft) {
     projects: { ...draft.projects, items: syncProjects(draft.projects.items || []) },
     footer: { ...draft.footer, subtext: defaultContent.footer.subtext },
   };
+}
+
+// Saved content older than the current defaults (contentVersion bumped when
+// resume content changes) is upgraded automatically, so the live site never
+// shows stale text. Once the admin saves, the new version is stored and later
+// admin edits are kept as-is.
+export function upgradeContent(saved, merged) {
+  return (saved.contentVersion || 1) < defaultContent.contentVersion ? applyResumeContent(merged) : merged;
 }

@@ -6,7 +6,7 @@ import { LayoutGrid, LogOut, Save, ExternalLink, Check, AlertTriangle, FileText 
 import { auth } from '../firebase';
 import { contentDocRef } from '../context/ContentContext';
 import { defaultContent } from '../defaultContent';
-import { applyResumeContent } from './syncDefaults';
+import { applyResumeContent, upgradeContent } from '../contentSync';
 
 import HeaderEditor from './sections/HeaderEditor';
 import HeroEditor from './sections/HeroEditor';
@@ -43,7 +43,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     (async () => {
       const snap = await getDoc(contentDocRef());
-      setDraft(snap.exists() ? { ...defaultContent, ...snap.data() } : defaultContent);
+      setDraft(snap.exists() ? upgradeContent(snap.data(), { ...defaultContent, ...snap.data() }) : defaultContent);
     })();
   }, []);
 

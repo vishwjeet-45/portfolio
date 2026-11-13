@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import { defaultContent } from '../defaultContent';
+import { upgradeContent } from '../contentSync';
 
 export const contentDocRef = () => doc(db, 'site', 'content');
 
@@ -34,7 +35,7 @@ export function ContentProvider({ children }) {
     const unsub = onSnapshot(
       contentDocRef(),
       (snap) => {
-        setContent(snap.exists() ? deepMerge(defaultContent, snap.data()) : defaultContent);
+        setContent(snap.exists() ? upgradeContent(snap.data(), deepMerge(defaultContent, snap.data())) : defaultContent);
         setLoading(false);
       },
       () => {

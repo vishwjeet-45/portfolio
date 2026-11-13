@@ -3,6 +3,7 @@ import { useContent } from '../context/ContentContext';
 
 export default function Education() {
   const ref = useReveal();
+  const highlightsRef = useReveal();
   const { content } = useContent();
   const { heading, items, highlightsHeading, highlights } = content.education;
 
@@ -27,7 +28,7 @@ export default function Education() {
           <span className="font-mono text-amber text-sm">07</span>
           <span className="text-[clamp(24px,3vw,32px)] font-extrabold tracking-tight">{highlightsHeading}</span>
         </div>
-        <div className="flex flex-wrap gap-3.5">
+        <div ref={highlightsRef} className="flex flex-wrap gap-3.5">
           {highlights.map((h) => (
             <div key={h} className="reveal font-mono text-[13px] text-text bg-bg-raised border border-line px-4 py-2.5 rounded-full">
               <span className="text-teal">✓ </span>

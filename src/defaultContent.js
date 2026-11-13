@@ -3,6 +3,9 @@
 // from /admin, Firestore data overrides these defaults automatically.
 
 export const defaultContent = {
+  // Bump when resume-driven text changes — see upgradeContent() in contentSync.js.
+  contentVersion: 2,
+
   header: {
     brand: 'VK',
     brandSuffix: '.dev',
